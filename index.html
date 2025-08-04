@@ -65,6 +65,10 @@
         </select>
         <input type="text" id="country" placeholder="Country" required>
         <input type="text" id="postalCode" placeholder="Postal Code" required>
+        <input type="text" id="fullName" placeholder="Full Name" required>
+        <input type="text" id="city" placeholder="City" required>
+        <input type="tel" id="phone" placeholder="Phone Number" required>
+        <input type="email" id="email" placeholder="Email (optional)">
         <button class="btn" type="submit">Confirm Order</button>
       </form>
     </div>
@@ -77,7 +81,19 @@
   <script>
     let isLoggedIn = false;
 
-    const products = [...]; // unchanged for brevity
+    const products = [
+      "Lionel Messi", "Cristiano Ronaldo", "Neymar Jr", "Kylian Mbappé", "Kevin De Bruyne",
+      "Erling Haaland", "Harry Kane", "Luka Modrić", "Karim Benzema", "Vinícius Jr",
+      "Mohamed Salah", "Robert Lewandowski", "Jude Bellingham", "Gavi", "Pedri",
+      "Sadio Mané", "Son Heung-min", "Paul Pogba", "Bruno Fernandes", "Antoine Griezmann",
+      "João Félix", "Jack Grealish", "Phil Foden", "Declan Rice", "Marcus Rashford",
+      "Frenkie de Jong", "Marc-André ter Stegen", "Ederson Moraes", "Virgil van Dijk", "Alisson Becker",
+      "Toni Kroos", "Thibaut Courtois", "Raphaël Varane", "Achraf Hakimi", "Jadon Sancho",
+      "Ousmane Dembélé", "Kai Havertz", "Christian Pulisic", "Zlatan Ibrahimović", "Mesut Özil",
+      "Gerard Piqué", "Sergio Ramos", "Sergio Agüero", "Marco Reus", "Thiago Silva",
+      "David de Gea", "Manuel Neuer", "Andrea Pirlo", "Francesco Totti", "Gianluigi Buffon",
+      "Wayne Rooney", "Frank Lampard", "Steven Gerrard", "Xavi Hernández", "Andrés Iniesta"
+    ];
 
     const jerseyGrid = document.getElementById('jerseyGrid');
     const searchInput = document.getElementById('searchInput');
@@ -124,7 +140,11 @@
       const size = document.getElementById('orderSize').value;
       const country = document.getElementById('country').value;
       const postalCode = document.getElementById('postalCode').value;
-      alert(`Order placed for ${quantity}x ${player} jersey(s), Size: ${size}, Country: ${country}, Postal Code: ${postalCode}`);
+      const fullName = document.getElementById('fullName').value;
+      const city = document.getElementById('city').value;
+      const phone = document.getElementById('phone').value;
+      const email = document.getElementById('email').value;
+      alert(`Order placed:\nName: ${fullName}\nJersey: ${player}\nQuantity: ${quantity}\nSize: ${size}\nCountry: ${country}\nCity: ${city}\nPostal Code: ${postalCode}\nPhone: ${phone}\nEmail: ${email}`);
       document.getElementById('orderForm').style.display = 'none';
     }
 
