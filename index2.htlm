@@ -1,108 +1,54 @@
-<!DOCTYPE html> 
+<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>ProKick Jerseys - Football Shirt Shop</title>
+<title>Test Football Shirts</title>
 <style>
-  * {
-    margin: 0; padding: 0; box-sizing: border-box;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  }
-  body {
-    background: #f9fafb; color: #222;
-  }
-  header {
-    background: linear-gradient(90deg, #121212, #1f1f1f);
-    color: white;
-    padding: 15px 20px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  }
-  header h1 {
-    font-size: 1.7rem;
-    cursor: pointer;
-  }
-  nav {
-    display: flex;
-    gap: 20px;
-    align-items: center;
-  }
-  nav a {
-    color: white;
-    text-decoration: none;
-    font-weight: 600;
-  }
-  .shirts {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-    gap: 20px;
-    padding: 20px;
-  }
+  body { font-family: Arial, sans-serif; background: #f9fafb; padding: 20px; }
   .shirt {
+    display: inline-block;
+    width: 180px;
+    margin: 10px;
     background: white;
-    padding: 10px;
     border-radius: 8px;
+    box-shadow: 0 0 5px rgba(0,0,0,0.1);
     text-align: center;
-    box-shadow: 0 0 10px rgba(0,0,0,0.05);
+    padding: 10px;
   }
   .shirt img {
-    max-width: 100%;
+    width: 100%;
     border-radius: 6px;
-    margin-bottom: 10px;
   }
   .shirt h3 {
-    font-size: 1rem;
-    margin-bottom: 5px;
+    margin: 8px 0 4px;
+    font-size: 16px;
   }
   .shirt p {
-    font-size: 0.9rem;
-    color: #555;
+    color: green;
+    font-weight: bold;
   }
 </style>
 </head>
 <body>
-  <header>
-    <h1>ProKick Jerseys</h1>
-    <nav>
-      <a href="#">Home</a>
-      <a href="#">Shop</a>
-      <a href="#">Contact</a>
-    </nav>
-  </header>
 
-  <section class="shirts">
-    <div class="shirt">
-      <img src="https://i.imgur.com/svAZcSG.jpg" alt="Lionel Messi Jersey">
-      <h3>Lionel Messi</h3>
-      <p>Price: $10</p>
-    </div>
-    <div class="shirt">
-      <img src="https://i.imgur.com/VuDdYCE.jpg" alt="Cristiano Ronaldo Jersey">
-      <h3>Cristiano Ronaldo</h3>
-      <p>Price: $10</p>
-    </div>
-    <div class="shirt">
-      <img src="https://i.imgur.com/hZQdQkD.jpg" alt="Neymar Jr Jersey">
-      <h3>Neymar Jr</h3>
-      <p>Price: $10</p>
-    </div>
-    <div class="shirt">
-      <img src="https://i.imgur.com/snyIVpM.jpg" alt="Kylian Mbappé Jersey">
-      <h3>Kylian Mbappé</h3>
-      <p>Price: $10</p>
-    </div>
-    <div class="shirt">
-      <img src="https://i.imgur.com/BoQ02Ud.jpg" alt="Jude Bellingham Jersey">
-      <h3>Jude Bellingham</h3>
-      <p>Price: $10</p>
-    </div>
-    <div class="shirt">
-      <img src="https://i.imgur.com/buM53P3.jpg" alt="Erling Haaland Jersey">
-      <h3>Erling Haaland</h3>
-      <p>Price: $10</p>
-    </div>
-  </section>
+<div class="shirt">
+  <img src="https://upload.wikimedia.org/wikipedia/commons/8/89/Portrait_of_Lionel_Messi_20180626.jpg" alt="Lionel Messi" />
+  <h3>Lionel Messi</h3>
+  <p>$10</p>
+</div>
+
+<div class="shirt">
+  <img src="https://upload.wikimedia.org/wikipedia/commons/8/8c/Cristiano_Ronaldo_2018.jpg" alt="Cristiano Ronaldo" />
+  <h3>Cristiano Ronaldo</h3>
+  <p>$10</p>
+</div>
+
+<div class="shirt">
+  <img src="https://upload.wikimedia.org/wikipedia/commons/e/e0/Neymar_2018.jpg" alt="Neymar Jr" />
+  <h3>Neymar Jr</h3>
+  <p>$10</p>
+</div>
+
 </body>
 </html>
