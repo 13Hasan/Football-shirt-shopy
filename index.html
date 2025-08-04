@@ -1,4 +1,4 @@
- <!DOCTYPE html> 
+<!DOCTYPE html> 
 <html lang="en">
 <head>
 <meta charset="UTF-8" />
@@ -257,17 +257,39 @@
     <form id="orderForm">
       <label for="orderPlayer">Player</label>
       <input type="text" id="orderPlayer" readonly />
+      
       <label for="orderSize">Size</label>
       <select id="orderSize" required>
         <option value="">Select Size</option>
         <option value="S">S</option><option value="M">M</option><option value="L">L</option><option value="XL">XL</option>
       </select>
+      
       <label for="orderQuantity">Quantity</label>
       <input type="number" id="orderQuantity" min="1" value="1" required />
+      
       <label for="orderName">Name (who is it for?)</label>
       <input type="text" id="orderName" placeholder="Full Name" required />
+      
+      <label for="orderCountry">Country</label>
+      <select id="orderCountry" required>
+        <option value="">Select Country</option>
+        <option value="Azerbaijan">Azerbaijan</option>
+        <option value="USA">USA</option>
+        <option value="UK">UK</option>
+        <option value="Germany">Germany</option>
+        <option value="France">France</option>
+        <option value="Spain">Spain</option>
+        <option value="Italy">Italy</option>
+        <option value="Brazil">Brazil</option>
+        <option value="Argentina">Argentina</option>
+      </select>
+      
+      <label for="orderPostalCode">Postal Code</label>
+      <input type="text" id="orderPostalCode" placeholder="Your postal code" required />
+      
       <label for="orderPrice">Price per jersey ($)</label>
       <input type="number" id="orderPrice" readonly />
+      
       <div class="modal-buttons">
         <button type="button" class="btn" onclick="buyNow()">Buy Now</button>
         <button type="button" class="btn" onclick="addToBasket()">Add to Basket</button>
@@ -406,15 +428,70 @@
     {name: "Yeremy Pino", price: 10},
     {name: "Takefusa Kubo", price: 10},
     {name: "Benjamin Šeško", price: 10},
-    {name: "Noah Okafor", price: 10}
+    {name: "Dominik Livaković", price: 10},
+    {name: "Marc-André ter Stegen", price: 10},
+    {name: "Gabriel Jesus", price: 10},
+    {name: "Rodrigo De Paul", price: 10},
+    {name: "Álvaro Odriozola", price: 10},
+    {name: "Marcelo Brozović", price: 10},
+    {name: "Thiago Alcântara", price: 10},
+    {name: "Luis Suárez", price: 10},
+    {name: "Diego Godín", price: 10},
+    {name: "Xherdan Shaqiri", price: 10},
+    {name: "Mario Götze", price: 10},
+    {name: "Mesut Özil", price: 10},
+    {name: "Toni Kroos", price: 10},
+    {name: "James Rodríguez", price: 10},
+    {name: "Andrés Iniesta", price: 10},
+    {name: "Franck Ribéry", price: 10},
+    {name: "Arjen Robben", price: 10},
+    {name: "Zlatan Ibrahimović", price: 10},
+    {name: "Robert Lewandowski", price: 10},
+    {name: "Kaká", price: 10},
+    {name: "Didier Drogba", price: 10},
+    {name: "Samuel Eto'o", price: 10},
+    {name: "Yaya Touré", price: 10},
+    {name: "Clarence Seedorf", price: 10},
+    {name: "Patrick Vieira", price: 10},
+    {name: "Carlos Tévez", price: 10},
+    {name: "Sergio Agüero", price: 10},
+    {name: "Luis Figo", price: 10},
+    {name: "David Beckham", price: 10},
+    {name: "Ryan Giggs", price: 10},
+    {name: "Paul Scholes", price: 10},
+    {name: "Steven Gerrard", price: 10},
+    {name: "Xavi Hernández", price: 10},
+    {name: "Cesc Fàbregas", price: 10},
+    {name: "Andrea Pirlo", price: 10},
+    {name: "Gianluigi Buffon", price: 10},
+    {name: "Paolo Maldini", price: 10},
+    {name: "Francesco Totti", price: 10},
+    {name: "Alessandro Del Piero", price: 10},
+    {name: "Roberto Baggio", price: 10},
+    {name: "Zinedine Zidane", price: 10},
+    {name: "Michel Platini", price: 10},
+    {name: "Johan Cruyff", price: 10},
+    {name: "George Best", price: 10},
+    {name: "Bobby Charlton", price: 10},
+    {name: "Lev Yashin", price: 10},
+    {name: "Pelé", price: 10},
+    {name: "Diego Maradona", price: 10},
+    {name: "Gerd Müller", price: 10},
+    {name: "Marco van Basten", price: 10},
+    {name: "Roberto Carlos", price: 10},
+    {name: "Thierry Henry", price: 10},
+    {name: "Dennis Bergkamp", price: 10},
   ];
 
-  // State
-  let loggedInUser = null;
+  // Basket array
   let basket = [];
 
-  // DOM Elements
+  // User logged-in email (just for demo)
+  let loggedInUser = null;
+
+  // DOM elements
   const jerseyGrid = document.getElementById('jerseyGrid');
+  const shopGrid = document.getElementById('shopGrid');
   const basketBtn = document.getElementById('basketBtn');
   const basketModal = document.getElementById('basketModal');
   const basketItems = document.getElementById('basketItems');
@@ -425,46 +502,81 @@
   const orderNameInput = document.getElementById('orderName');
   const orderPriceInput = document.getElementById('orderPrice');
   const loginModal = document.getElementById('loginModal');
+  const loginForm = document.getElementById('loginForm');
+  const loginEmailInput = document.getElementById('loginEmail');
   const registerModal = document.getElementById('registerModal');
+  const registerForm = document.getElementById('registerForm');
+  const regNameInput = document.getElementById('regName');
+  const regEmailInput = document.getElementById('regEmail');
+  const profileSection = document.getElementById('profileSection');
   const profileNameSpan = document.getElementById('profileName');
-  const loginBtn = document.getElementById('loginBtn');
-  const registerBtn = document.getElementById('registerBtn');
+  const homeSection = document.getElementById('homeSection');
+  const shopSection = document.getElementById('shopSection');
+  const searchInput = document.getElementById('searchInput');
 
-  // Functions
+  // Initialize site
+  function init() {
+    renderProducts(products);
+    updateBasketCount();
+    updateNav();
+  }
 
-  function renderProducts(filter = '') {
+  // Render product cards (home/shop)
+  function renderProducts(list) {
     jerseyGrid.innerHTML = '';
-    const filtered = products.filter(p => p.name.toLowerCase().includes(filter.toLowerCase()));
-    if(filtered.length === 0) {
-      jerseyGrid.innerHTML = '<p style="text-align:center; color:#555; font-style: italic;">No jerseys found.</p>';
-      return;
-    }
-    filtered.forEach(p => {
+    shopGrid.innerHTML = '';
+    list.forEach(p => {
       const card = document.createElement('div');
       card.className = 'card';
-      card.innerHTML = `
-        <img src="https://via.placeholder.com/400x400?text=${encodeURIComponent(p.name)}" alt="${p.name}" />
-        <div class="card-body">
-          <h3>${p.name}</h3>
-          <p class="price">$${p.price.toFixed(2)}</p>
-          <button class="btn" onclick="openOrderModal('${p.name}',${p.price})">Order</button>
-        </div>
-      `;
+
+      // Image placeholder from a free source, using player name for alt
+      const img = document.createElement('img');
+      img.src = `https://source.unsplash.com/featured/?football,jersey,${encodeURIComponent(p.name)}`;
+      img.alt = p.name;
+
+      const body = document.createElement('div');
+      body.className = 'card-body';
+
+      const h3 = document.createElement('h3');
+      h3.textContent = p.name;
+
+      const price = document.createElement('div');
+      price.className = 'price';
+      price.textContent = `$${p.price.toFixed(2)}`;
+
+      const btn = document.createElement('button');
+      btn.className = 'btn';
+      btn.textContent = 'Order';
+      btn.onclick = () => openOrderModal(p);
+
+      body.appendChild(h3);
+      body.appendChild(price);
+      body.appendChild(btn);
+
+      card.appendChild(img);
+      card.appendChild(body);
+
       jerseyGrid.appendChild(card);
+      shopGrid.appendChild(card.cloneNode(true));
     });
   }
 
-  function openOrderModal(player, price) {
-    if(!loggedInUser) {
-      alert('Please login with Gmail to order.');
-      openLogin();
-      return;
-    }
-    orderPlayerInput.value = player;
-    orderPriceInput.value = price.toFixed(2);
-    orderQuantityInput.value = 1;
+  // Search filter
+  searchInput.addEventListener('input', () => {
+    const query = searchInput.value.toLowerCase();
+    const filtered = products.filter(p => p.name.toLowerCase().includes(query));
+    renderProducts(filtered);
+  });
+
+  // Open order modal
+  function openOrderModal(product) {
+    orderPlayerInput.value = product.name;
+    orderPriceInput.value = product.price.toFixed(2);
     orderSizeSelect.value = '';
-    orderNameInput.value = loggedInUser.name || '';
+    orderQuantityInput.value = 1;
+    orderNameInput.value = '';
+    document.getElementById('orderCountry').value = '';
+    document.getElementById('orderPostalCode').value = '';
     orderModal.classList.add('active');
   }
 
@@ -472,111 +584,95 @@
     orderModal.classList.remove('active');
   }
 
+  // Buy now function
   function buyNow() {
     const player = orderPlayerInput.value;
     const size = orderSizeSelect.value;
     const qty = parseInt(orderQuantityInput.value);
     const name = orderNameInput.value.trim();
     const price = parseFloat(orderPriceInput.value);
+    const country = document.getElementById('orderCountry').value;
+    const postalCode = document.getElementById('orderPostalCode').value.trim();
 
     if(!size) { alert('Please select a size.'); return; }
     if(qty < 1) { alert('Quantity must be at least 1.'); return; }
     if(!name) { alert('Please enter the name for the order.'); return; }
+    if(!country) { alert('Please select your country.'); return; }
+    if(!postalCode) { alert('Please enter your postal code.'); return; }
 
-    alert(`Order successful!\n\nPlayer: ${player}\nSize: ${size}\nQuantity: ${qty}\nPrice: $${(qty * price).toFixed(2)}\nName: ${name}`);
+    alert(`Order successful!\n\nPlayer: ${player}\nSize: ${size}\nQuantity: ${qty}\nPrice: $${(qty * price).toFixed(2)}\nName: ${name}\nCountry: ${country}\nPostal Code: ${postalCode}`);
     closeOrderModal();
   }
 
+  // Add to basket function
   function addToBasket() {
     const player = orderPlayerInput.value;
     const size = orderSizeSelect.value;
     const qty = parseInt(orderQuantityInput.value);
     const name = orderNameInput.value.trim();
     const price = parseFloat(orderPriceInput.value);
+    const country = document.getElementById('orderCountry').value;
+    const postalCode = document.getElementById('orderPostalCode').value.trim();
 
     if(!size) { alert('Please select a size.'); return; }
     if(qty < 1) { alert('Quantity must be at least 1.'); return; }
     if(!name) { alert('Please enter the name for the order.'); return; }
+    if(!country) { alert('Please select your country.'); return; }
+    if(!postalCode) { alert('Please enter your postal code.'); return; }
 
-    basket.push({player, size, qty, name, price});
+    basket.push({player, size, qty, name, price, country, postalCode});
     updateBasketCount();
     alert(`Added to basket: ${player} x${qty} (Size: ${size})`);
     closeOrderModal();
   }
 
+  // Basket functions
   function updateBasketCount() {
     basketBtn.textContent = `Basket (${basket.length})`;
   }
-
   function openBasket() {
-    if(!loggedInUser) {
-      alert('Please login to view your basket.');
-      openLogin();
-      return;
-    }
-    basketModal.classList.add('active');
     renderBasketItems();
+    basketModal.classList.add('active');
   }
-
   function closeBasket() {
     basketModal.classList.remove('active');
   }
-
   function renderBasketItems() {
-    basketItems.innerHTML = '';
     if(basket.length === 0) {
-      basketItems.innerHTML = '<p class="empty-msg">Your basket is empty.</p>';
+      basketItems.innerHTML = `<p class="empty-msg">Your basket is empty.</p>`;
       return;
     }
+    basketItems.innerHTML = '';
     basket.forEach((item, i) => {
       const div = document.createElement('div');
-      div.innerHTML = `
-        <div><strong>${item.player}</strong> (Size: ${item.size}) x${item.qty} - For: ${item.name} - $${(item.price * item.qty).toFixed(2)}</div>
-        <button onclick="removeBasketItem(${i})" style="background:#ef233c;color:#fff;border:none;padding:3px 7px;border-radius:4px;cursor:pointer;">Remove</button>
-      `;
-      div.style.display = 'flex';
-      div.style.justifyContent = 'space-between';
-      div.style.alignItems = 'center';
-      div.style.marginBottom = '8px';
+      div.textContent = `${item.player} - Size: ${item.size} - Qty: ${item.qty} - For: ${item.name} - ${item.country} (${item.postalCode}) - $${(item.qty * item.price).toFixed(2)}`;
       basketItems.appendChild(div);
     });
   }
-
-  function removeBasketItem(index) {
-    basket.splice(index, 1);
-    updateBasketCount();
-    renderBasketItems();
-  }
-
   function checkout() {
     if(basket.length === 0) {
       alert('Your basket is empty!');
       return;
     }
-    let total = basket.reduce((acc, item) => acc + item.price * item.qty, 0);
-    alert(`Checkout\nTotal: $${total.toFixed(2)}\nThank you for your order!`);
+    alert('Thank you for your purchase! We will contact you shortly.');
     basket = [];
     updateBasketCount();
     closeBasket();
   }
 
-  // Navigation functions
+  // Navigation
   function goHome() {
-    hideAllSections();
-    document.getElementById('homeSection').style.display = 'block';
+    homeSection.style.display = 'block';
+    shopSection.style.display = 'none';
+    profileSection.style.display = 'none';
   }
   function goShop() {
-    hideAllSections();
-    document.getElementById('shopSection').style.display = 'block';
-    renderProducts();
-  }
-  function hideAllSections() {
-    document.getElementById('homeSection').style.display = 'none';
-    document.getElementById('shopSection').style.display = 'none';
-    document.getElementById('profileSection').style.display = 'none';
+    homeSection.style.display = 'none';
+    shopSection.style.display = 'block';
+    profileSection.style.display = 'none';
   }
 
-  // Login/Register modals
+  // Login / Register logic
   function openLogin() {
     loginModal.classList.add('active');
   }
@@ -590,173 +686,59 @@
     registerModal.classList.remove('active');
   }
 
-  // Login form submit
-  document.getElementById('loginForm').addEventListener('submit', e => {
+  loginForm.addEventListener('submit', (e) => {
     e.preventDefault();
-    const email = e.target.loginEmail.value.trim();
-    if(!email.endsWith('@gmail.com')) {
-      alert('Only Gmail accounts allowed!');
-      return;
+    const email = loginEmailInput.value.trim();
+    if(email.endsWith('@gmail.com')) {
+      loggedInUser = email;
+      alert(`Logged in as ${email}`);
+      updateNav();
+      closeLogin();
+    } else {
+      alert('Please enter a valid Gmail address.');
     }
-    loggedInUser = {email, name: localStorage.getItem('userName') || email.split('@')[0]};
-    localStorage.setItem('userEmail', email);
-    localStorage.setItem('userName', loggedInUser.name);
-    closeLogin();
-    updateUIOnLogin();
   });
 
-  // Register form submit
-  document.getElementById('registerForm').addEventListener('submit', e => {
+  registerForm.addEventListener('submit', (e) => {
     e.preventDefault();
-    const name = e.target.regName.value.trim();
-    const email = e.target.regEmail.value.trim();
+    const name = regNameInput.value.trim();
+    const email = regEmailInput.value.trim();
+    if(!name) { alert('Please enter your name.'); return; }
     if(!email.endsWith('@gmail.com')) {
-      alert('Only Gmail accounts allowed!');
+      alert('Please enter a valid Gmail address.');
       return;
     }
-    loggedInUser = {email, name};
-    localStorage.setItem('userEmail', email);
-    localStorage.setItem('userName', name);
+    alert(`Registered as ${name} (${email}). You can now login.`);
     closeRegister();
-    updateUIOnLogin();
   });
+
+  function updateNav() {
+    const loginBtn = document.getElementById('loginBtn');
+    const registerBtn = document.getElementById('registerBtn');
+    const contactBtn = document.getElementById('contactBtn');
+    if(loggedInUser) {
+      loginBtn.style.display = 'none';
+      registerBtn.style.display = 'none';
+      contactBtn.style.display = 'inline-block';
+      profileSection.style.display = 'block';
+      profileNameSpan.textContent = loggedInUser.split('@')[0];
+      goHome();
+    } else {
+      loginBtn.style.display = 'inline-block';
+      registerBtn.style.display = 'inline-block';
+      contactBtn.style.display = 'inline-block';
+      profileSection.style.display = 'none';
+    }
+  }
 
   function logout() {
     loggedInUser = null;
-    localStorage.removeItem('userEmail');
-    localStorage.removeItem('userName');
-    updateUIOnLogout();
-    goHome();
+    alert('You have been logged out.');
+    updateNav();
   }
 
-  function updateUIOnLogin() {
-    loginBtn.style.display = 'none';
-    registerBtn.style.display = 'none';
-
-    if(!document.getElementById('profileDisplay')) {
-      const profileSpan = document.createElement('span');
-      profileSpan.id = 'profileDisplay';
-      profileSpan.className = 'profile';
-      profileSpan.innerHTML = `<span>${loggedInUser.name}</span>`;
-      const logoutBtn = document.createElement('button');
-      logoutBtn.id = 'logoutBtn';
-      logoutBtn.textContent = 'Logout';
-      logoutBtn.onclick = logout;
-
-      const nav = document.getElementById('navMenu');
-      nav.appendChild(profileSpan);
-      nav.appendChild(logoutBtn);
-    } else {
-      document.getElementById('profileDisplay').textContent = loggedInUser.name;
-      document.getElementById('logoutBtn').style.display = 'inline-block';
-    }
-  }
-
-  function updateUIOnLogout() {
-    loginBtn.style.display = 'inline';
-    registerBtn.style.display = 'inline';
-    const profileSpan = document.getElementById('profileDisplay');
-    const logoutBtn = document.getElementById('logoutBtn');
-    if(profileSpan) profileSpan.remove();
-    if(logoutBtn) logoutBtn.remove();
-  }
-
-  // Search functionality
-  document.getElementById('searchInput').addEventListener('input', e => {
-    renderProducts(e.target.value);
-  });
-
-  // Init
-  window.onload = () => {
-    const storedEmail = localStorage.getItem('userEmail');
-    const storedName = localStorage.getItem('userName');
-    if(storedEmail && storedName) {
-      loggedInUser = {email: storedEmail, name: storedName};
-      updateUIOnLogin();
-    }
-    renderProducts();
-  }
+  // Start app
+  init();
 </script>
 </body>
 </html>
-@media (max-width: 600px) {
-  nav {
-    flex-direction: column;
-    align-items: center;
-    gap: 0.8rem;
-  }
-
-  .card img {
-    height: 180px;
-  }
-
-  .btn {
-    width: 100%;
-  }
-
-  form {
-    padding: 1rem;
-  }
-
-  input, select {
-    font-size: 1rem;
-  }
-
-  header h1 {
-    font-size: 1.5rem;
-  }
-}
-<select id="country" required>
-  <option value="">Select Country</option>
-  <option value="Albania">Albania</option>
-  <option value="Andorra">Andorra</option>
-  <option value="Armenia">Armenia</option>
-  <option value="Austria">Austria</option>
-  <option value="Azerbaijan">Azerbaijan</option>
-  <option value="Belgium">Belgium</option>
-  <option value="Bosnia and Herzegovina">Bosnia and Herzegovina</option>
-  <option value="Bulgaria">Bulgaria</option>
-  <option value="Croatia">Croatia</option>
-  <option value="Cyprus">Cyprus</option>
-  <option value="Czech Republic">Czech Republic</option>
-  <option value="Denmark">Denmark</option>
-  <option value="Estonia">Estonia</option>
-  <option value="Finland">Finland</option>
-  <option value="France">France</option>
-  <option value="Georgia">Georgia</option>
-  <option value="Germany">Germany</option>
-  <option value="Greece">Greece</option>
-  <option value="Hungary">Hungary</option>
-  <option value="Iceland">Iceland</option>
-  <option value="Ireland">Ireland</option>
-  <option value="Italy">Italy</option>
-  <option value="Kazakhstan">Kazakhstan</option>
-  <option value="Kosovo">Kosovo</option>
-  <option value="Latvia">Latvia</option>
-  <option value="Liechtenstein">Liechtenstein</option>
-  <option value="Lithuania">Lithuania</option>
-  <option value="Luxembourg">Luxembourg</option>
-  <option value="Malta">Malta</option>
-  <option value="Moldova">Moldova</option>
-  <option value="Monaco">Monaco</option>
-  <option value="Montenegro">Montenegro</option>
-  <option value="Netherlands">Netherlands</option>
-  <option value="North Macedonia">North Macedonia</option>
-  <option value="Norway">Norway</option>
-  <option value="Poland">Poland</option>
-  <option value="Portugal">Portugal</option>
-  <option value="Romania">Romania</option>
-  <option value="San Marino">San Marino</option>
-  <option value="Serbia">Serbia</option>
-  <option value="Slovakia">Slovakia</option>
-  <option value="Slovenia">Slovenia</option>
-  <option value="Spain">Spain</option>
-  <option value="Sweden">Sweden</option>
-  <option value="Switzerland">Switzerland</option>
-  <option value="Turkey">Turkey</option>
-  <option value="Ukraine">Ukraine</option>
-  <option value="United Kingdom">United Kingdom</option>
-  <option value="Vatican City">Vatican City</option>
-</select>
-
-<input type="text" id="postalCode" placeholder="Postal Code" required>
