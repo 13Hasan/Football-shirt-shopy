@@ -29,7 +29,7 @@
     gap: 20px;
     align-items: center;
   }
-  nav a, nav button {
+  nav a {
     color: white;
     text-decoration: none;
     font-weight: 600;
@@ -74,32 +74,32 @@
 
   <section class="shirts">
     <div class="shirt">
-      <img src="https://i.imgur.com/svAZcSG.jpg" alt="Messi Jersey">
+      <img src="https://i.imgur.com/svAZcSG.jpg" alt="Lionel Messi Jersey">
       <h3>Lionel Messi</h3>
       <p>Price: $10</p>
     </div>
     <div class="shirt">
-      <img src="https://i.imgur.com/VuDdYCE.jpg" alt="Ronaldo Jersey">
+      <img src="https://i.imgur.com/VuDdYCE.jpg" alt="Cristiano Ronaldo Jersey">
       <h3>Cristiano Ronaldo</h3>
       <p>Price: $10</p>
     </div>
     <div class="shirt">
-      <img src="https://i.imgur.com/hZQdQkD.jpg" alt="Neymar Jersey">
+      <img src="https://i.imgur.com/hZQdQkD.jpg" alt="Neymar Jr Jersey">
       <h3>Neymar Jr</h3>
       <p>Price: $10</p>
     </div>
     <div class="shirt">
-      <img src="https://i.imgur.com/snyIVpM.jpg" alt="Mbappe Jersey">
+      <img src="https://i.imgur.com/snyIVpM.jpg" alt="Kylian Mbappé Jersey">
       <h3>Kylian Mbappé</h3>
       <p>Price: $10</p>
     </div>
     <div class="shirt">
-      <img src="https://i.imgur.com/BoQ02Ud.jpg" alt="Bellingham Jersey">
+      <img src="https://i.imgur.com/BoQ02Ud.jpg" alt="Jude Bellingham Jersey">
       <h3>Jude Bellingham</h3>
       <p>Price: $10</p>
     </div>
     <div class="shirt">
-      <img src="https://i.imgur.com/buM53P3.jpg" alt="Haaland Jersey">
+      <img src="https://i.imgur.com/buM53P3.jpg" alt="Erling Haaland Jersey">
       <h3>Erling Haaland</h3>
       <p>Price: $10</p>
     </div>
