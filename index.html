@@ -1,168 +1,465 @@
-<!-- FULL HTML with 20 footballers + working search, form fields, and cart system -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>ProKick Jerseys</title>
-  <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
-    body { background: #f0f2f5; color: #333; }
-    header { background: linear-gradient(90deg, #0d1b2a, #1b263b); color: white; padding: 1.2rem 1rem; text-align: center; }
-    header h1 { font-size: 2rem; }
-    nav { background: #415a77; display: flex; justify-content: center; gap: 1.5rem; padding: 1rem; }
-    nav a { color: white; text-decoration: none; font-weight: 600; transition: 0.3s; }
-    nav a:hover { text-decoration: underline; }
-    .container { max-width: 1200px; margin: auto; padding: 1rem; }
-    .search-bar { margin: 1.5rem 0; }
-    .search-bar input { width: 100%; padding: 0.8rem; border-radius: 6px; border: 1px solid #bbb; }
-    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 1.2rem; }
-    .card { background: white; border-radius: 10px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.1); transition: transform 0.2s; }
-    .card:hover { transform: translateY(-4px); }
-    .card img { width: 100%; height: 230px; object-fit: cover; }
-    .card-body { padding: 1rem; }
-    .card-body h3 { font-size: 1.1rem; margin-bottom: 0.5rem; }
-    .price { color: green; font-weight: bold; }
-    .btn { background: #ef233c; color: white; padding: 0.5rem 1rem; border: none; border-radius: 5px; cursor: pointer; margin-top: 0.6rem; transition: 0.3s; }
-    .btn:hover { background: #d90429; }
-    .auth, .payment { display: flex; flex-wrap: wrap; gap: 2rem; margin: 3rem 0; }
-    form { background: white; padding: 1.5rem; border-radius: 10px; flex: 1; min-width: 300px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
-    input { width: 100%; padding: 0.6rem; margin: 0.6rem 0; border: 1px solid #ccc; border-radius: 5px; }
-    h3 { margin-bottom: 1rem; }
-    .payment-methods img { width: 60px; margin-right: 10px; vertical-align: middle; }
-    footer { background: #1b263b; color: white; text-align: center; padding: 2rem 1rem; margin-top: 3rem; }
-  </style>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>ProKick Jerseys Shop</title>
+<style>
+  * {margin:0; padding:0; box-sizing:border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;}
+  body {background:#f0f2f5; color:#333; min-height: 100vh; padding-bottom: 50px;}
+  header {background: linear-gradient(90deg, #0d1b2a, #1b263b); color: white; padding: 1rem; text-align:center;}
+  header h1 {font-size: 2rem;}
+  nav {background:#415a77; display:flex; justify-content:center; gap:1.5rem; padding: 0.8rem 0;}
+  nav a {color: white; text-decoration:none; font-weight: 600; cursor:pointer;}
+  nav a:hover {text-decoration: underline;}
+  .container {max-width: 1200px; margin: 1rem auto; padding: 0 1rem;}
+  .search-bar {margin: 1rem 0;}
+  .search-bar input {width: 100%; padding: 0.8rem; border-radius: 6px; border: 1px solid #bbb; font-size: 1rem;}
+  .grid {display: grid; grid-template-columns: repeat(auto-fit, minmax(230px,1fr)); gap: 1rem;}
+  .card {background: white; border-radius: 10px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); overflow: hidden; transition: transform 0.2s;}
+  .card:hover {transform: translateY(-4px);}
+  .card img {width: 100%; height: 230px; object-fit: cover;}
+  .card-body {padding: 1rem;}
+  .card-body h3 {font-size: 1.1rem; margin-bottom: 0.5rem;}
+  .price {color: green; font-weight: bold;}
+  .btn {background: #ef233c; color: white; padding: 0.5rem 1rem; border: none; border-radius: 5px; cursor: pointer; margin-top: 0.6rem; transition: 0.3s;}
+  .btn:hover {background: #d90429;}
+  #cartBtn {
+    position: fixed; top: 12px; right: 12px;
+    background: #ef233c; border: none; color: white;
+    padding: 0.6rem 1rem; border-radius: 5px; cursor: pointer;
+    font-weight: 600; z-index: 1000; display: flex; align-items: center; gap: 0.4rem;
+  }
+  #cartBtn:hover { background: #d90429; }
+  #cartCount {
+    background: yellowgreen; color: black; border-radius: 50%;
+    padding: 0 7px; font-weight: 700; font-size: 0.9rem;
+  }
+  #cartPanel {
+    position: fixed; top: 50px; right: 12px; width: 350px;
+    max-height: 70vh; overflow-y: auto; background: white;
+    border-radius: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+    padding: 1rem; z-index: 999; display: none; flex-direction: column;
+  }
+  #cartPanel h3 {
+    margin-bottom: 1rem; border-bottom: 1px solid #ccc; padding-bottom: 0.5rem;
+  }
+  #cartItems { flex-grow: 1; overflow-y: auto; }
+  .cart-item {
+    display: flex; justify-content: space-between; align-items: center;
+    margin-bottom: 0.7rem; border-bottom: 1px solid #eee; padding-bottom: 0.3rem;
+  }
+  .cart-item span { font-weight: 600; }
+  .cart-item button {
+    background: #d90429; border: none; color: white;
+    padding: 0.3rem 0.6rem; border-radius: 5px; cursor: pointer; font-size: 0.85rem;
+  }
+  .cart-total { font-weight: 700; margin-top: 1rem; text-align: right; }
+  #checkoutSection {
+    margin-top: 2rem; max-width: 400px; margin-left: auto; margin-right: auto;
+    background: white; padding: 1rem 1.5rem; border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1); display: none;
+  }
+  #checkoutSection h3 {
+    margin-bottom: 1rem; color: #ef233c; text-align: center;
+  }
+  #checkoutForm input {
+    width: 100%; padding: 0.5rem; margin-bottom: 0.6rem;
+    border-radius: 5px; border: 1px solid #ccc; font-size: 1rem;
+  }
+  #checkoutForm button {
+    width: 100%; background: #ef233c; border: none; padding: 0.7rem;
+    border-radius: 5px; color: white; font-weight: 600; cursor: pointer; font-size: 1.1rem;
+  }
+  #checkoutForm button:hover { background: #d90429; }
+  #checkoutSuccess {
+    text-align: center; margin-top: 1rem; color: green;
+    display: none; font-weight: 700;
+  }
+  #adminModal {
+    position: fixed; top:0; left:0; right:0; bottom:0;
+    background: rgba(0,0,0,0.7); display: none;
+    justify-content: center; align-items: center; z-index: 2000;
+  }
+  #adminModalContent {
+    background: white; border-radius: 10px; max-width: 700px;
+    width: 90%; max-height: 80vh; overflow-y: auto;
+    padding: 1rem 1.5rem 2rem; position: relative;
+  }
+  #adminModalContent h2 {
+    margin-bottom: 1rem; text-align: center; color: #ef233c;
+  }
+  #adminCloseBtn {
+    position: absolute; top: 8px; right: 12px;
+    font-size: 1.3rem; font-weight: 700; border: none;
+    background: none; cursor: pointer; color: #ef233c;
+  }
+  table {
+    width: 100%; border-collapse: collapse; margin-top: 1rem;
+  }
+  th, td {
+    border: 1px solid #ccc; padding: 0.5rem; text-align: left;
+  }
+  th { background: #ef233c; color: white; }
+  #adminLogin {
+    max-width: 350px; margin: 2rem auto; background: white;
+    padding: 1rem; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    text-align: center;
+  }
+  #adminLogin input {
+    width: 100%; padding: 0.6rem; margin: 0.8rem 0;
+    border-radius: 5px; border: 1px solid #ccc; font-size: 1rem;
+  }
+  #adminLogin button {
+    background: #ef233c; border: none; color: white;
+    padding: 0.6rem 1rem; border-radius: 5px;
+    cursor: pointer; font-weight: 600; font-size: 1rem;
+  }
+  #adminLogin button:hover { background: #d90429; }
+  #adminLoginError {
+    color: red; margin-top: 0.5rem; display: none;
+  }
+  #logoutBtn {
+    cursor:pointer; display:none; color:white; font-weight:700; margin-left: 1rem;
+  }
+</style>
 </head>
 <body>
-  <header>
-    <h1>ProKick Jerseys</h1>
-    <p id="welcomeMsg">Your #1 source for top football jerseys – starting from just $10!</p>
-  </header>
 
-  <nav>
-    <a href="#">Home</a>
-    <a href="#">Shop</a>
-    <a href="#">Login</a>
-    <a href="#">Register</a>
-    <a href="#">Contact</a>
-  </nav>
+<header>
+  <h1>ProKick Jerseys Shop</h1>
+  <p>Your #1 source for top football jerseys – starting from just $10!</p>
+</header>
 
-  <div class="container">
-    <div class="search-bar">
-      <input type="text" id="searchInput" placeholder="Search player or team...">
-    </div>
+<nav>
+  <a href="#" id="homeLink">Home</a>
+  <a href="#" id="shopLink">Shop</a>
+  <a href="#" id="adminAccessBtn">Admin Panel</a>
+  <a href="#" id="logoutBtn">Logout</a>
+</nav>
 
-    <h2 style="margin: 1rem 0;">Featured Jerseys</h2>
-    <div class="grid" id="jerseyGrid"></div>
+<button id="cartBtn" title="View Cart">Cart (<span id="cartCount">0</span>)</button>
+<div id="cartPanel" role="region" aria-label="Shopping Cart">
+  <h3>Your Cart</h3>
+  <div id="cartItems"></div>
+  <div class="cart-total">Total: $<span id="cartTotal">0</span></div>
+  <button class="btn" id="checkoutBtn">Checkout</button>
+</div>
 
-    <div class="auth">
-      <form onsubmit="login(event)">
-        <h3>Login</h3>
-        <input type="email" placeholder="Email">
-        <input type="password" placeholder="Password">
-        <button class="btn" type="submit">Login</button>
-      </form>
+<div class="container" id="mainContent">
 
-      <form onsubmit="register(event)">
-        <h3>Register</h3>
-        <input type="text" id="regName" placeholder="Name">
-        <input type="email" placeholder="Email">
-        <input type="password" placeholder="Password">
-        <button class="btn" type="submit">Register</button>
-      </form>
-    </div>
-
-    <div class="payment">
-      <form onsubmit="pay(event)">
-        <h3>Shipping & Payment</h3>
-        <input type="text" placeholder="Full Name" required>
-        <input type="text" placeholder="Address" required>
-        <input type="text" placeholder="Postal Code" required>
-        <input type="text" placeholder="Phone Number" required>
-        <input type="email" placeholder="Email (optional)">
-        <input type="text" placeholder="Cardholder Name" required>
-        <input type="text" placeholder="Card Number" required>
-        <input type="text" placeholder="MM/YY" required>
-        <input type="text" placeholder="CVV" required>
-
-        <div class="payment-methods">
-          <label><strong>Accepted:</strong></label><br>
-          <img src="https://upload.wikimedia.org/wikipedia/commons/0/04/Visa.svg" alt="Visa">
-          <img src="https://upload.wikimedia.org/wikipedia/commons/5/5e/MasterCard_Logo.svg" alt="MasterCard">
-          <img src="https://upload.wikimedia.org/wikipedia/commons/3/30/American_Express_logo_%282018%29.svg" alt="American Express">
-          <img src="https://upload.wikimedia.org/wikipedia/commons/b/b5/PayPal.svg" alt="PayPal">
-        </div>
-
-        <button class="btn">Pay Now</button>
-      </form>
-    </div>
+  <div class="search-bar" id="searchBarDiv">
+    <input type="text" id="searchInput" placeholder="Search player or team..." aria-label="Search jerseys" />
   </div>
 
-  <footer>
-    <p>&copy; 2025 ProKick Jerseys. All rights reserved.</p>
-    <p>Contact: support@prokickjerseys.com</p>
-    <p>This site is built for demo purposes only.</p>
-  </footer>
+  <h2 style="margin: 1rem 0;">Featured Jerseys</h2>
+  <div class="grid" id="jerseyGrid" role="list"></div>
 
-  <script>
-    const products = [
-      "Lionel Messi", "Cristiano Ronaldo", "Kylian Mbappé", "Neymar Jr", "Mohamed Salah",
-      "Erling Haaland", "Kevin De Bruyne", "Vinícius Jr", "Luka Modrić", "Harry Kane",
-      "Sadio Mané", "Karim Benzema", "Jude Bellingham", "Pedri", "João Félix",
-      "Antoine Griezmann", "Marcus Rashford", "Paul Pogba", "Marco Reus", "Ousmane Dembélé"
-    ];
+  <div id="checkoutSection">
+    <form id="checkoutForm">
+      <h3>Shipping & Payment</h3>
+      <input type="text" id="shipName" placeholder="Full Name" required />
+      <input type="text" id="shipAddress" placeholder="Address" required />
+      <input type="text" id="shipPostal" placeholder="Postal Code" required />
+      <input type="text" id="shipPhone" placeholder="Phone Number" required />
+      <input type="email" id="shipEmail" placeholder="Email (optional)" />
+      <input type="text" id="cardName" placeholder="Cardholder Name" required />
+      <input type="text" id="cardNumber" placeholder="Card Number" required />
+      <input type="text" id="cardExpiry" placeholder="MM/YY" required />
+      <input type="text" id="cardCVV" placeholder="CVV" required />
 
-    const jerseyGrid = document.getElementById('jerseyGrid');
-    const searchInput = document.getElementById('searchInput');
+      <button class="btn" type="submit">Pay Now</button>
+    </form>
+    <div id="checkoutSuccess">Payment successful! Thank you for your order.</div>
+  </div>
+</div>
 
-    function renderProducts(filter = '') {
-      jerseyGrid.innerHTML = '';
-      products.filter(p => p.toLowerCase().includes(filter.toLowerCase())).forEach(name => {
-        jerseyGrid.innerHTML += `
-          <div class='card'>
-            <img src='https://via.placeholder.com/230x230?text=${encodeURIComponent(name)}' alt='${name}'>
-            <div class='card-body'>
-              <h3>${name}</h3>
-              <p class='price'>$10</p>
-              <button class='btn' onclick="alert('Added ${name} to cart')">Add to Cart</button>
-            </div>
-          </div>
-        `;
-      });
+<!-- Admin Modal -->
+<div id="adminModal" role="dialog" aria-modal="true" aria-labelledby="adminModalTitle">
+  <div id="adminModalContent">
+    <button id="adminCloseBtn" aria-label="Close Admin Panel">&times;</button>
+    <h2 id="adminModalTitle">Admin Panel - Order History</h2>
+    <div id="adminLoginSection">
+      <form id="adminLogin">
+        <input type="password" id="adminPassword" placeholder="Enter Admin Password" required autocomplete="off" />
+        <button type="submit" class="btn">Login</button>
+      </form>
+      <div id="adminLoginError">Wrong password!</div>
+    </div>
+    <div id="adminContent" style="display:none;">
+      <table>
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Customer Name</th>
+            <th>Email</th>
+            <th>Phone</th>
+            <th>Items</th>
+            <th>Total $</th>
+            <th>Address</th>
+            <th>Postal Code</th>
+          </tr>
+        </thead>
+        <tbody id="ordersTableBody"></tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <p>&copy; 2025 ProKick Jerseys Shop. All rights reserved.</p>
+  <p>Contact: support@prokickjerseys.com</p>
+  <p>This site is built for demo purposes only.</p>
+</footer>
+
+<script>
+  // --- Products and Prices ---
+  const products = [
+    "Lionel Messi", "Cristiano Ronaldo", "Kylian Mbappé", "Neymar Jr", "Mohamed Salah",
+    "Erling Haaland", "Kevin De Bruyne", "Vinícius Jr", "Luka Modrić", "Harry Kane",
+    "Sadio Mané", "Karim Benzema", "Jude Bellingham", "Pedri", "João Félix",
+    "Antoine Griezmann", "Marcus Rashford", "Paul Pogba", "Marco Reus", "Ousmane Dembélé",
+    "Robert Lewandowski", "Son Heung-min", "Bruno Fernandes", "Phil Foden", "Declan Rice",
+    "Federico Valverde", "Riyad Mahrez", "Bernardo Silva", "Toni Kroos", "Serge Gnabry",
+    "Gabriel Jesus", "Raphaël Varane", "Thomas Müller", "Ángel Di María", "David Alaba",
+    "Thiago Silva", "Ciro Immobile", "Mason Mount", "Kai Havertz", "Raheem Sterling",
+    "Gerard Piqué", "Álvaro Morata", "Christian Eriksen", "Fabinho", "Kalidou Koulibaly",
+    "Ruben Dias", "Hakim Ziyech", "Lucas Hernández", "Mats Hummels", "James Rodríguez"
+  ];
+  const price = 10; // hamısı 10$
+
+  // DOM elements
+  const jerseyGrid = document.getElementById('jerseyGrid');
+  const searchInput = document.getElementById('searchInput');
+  const cartBtn = document.getElementById('cartBtn');
+  const cartCount = document.getElementById('cartCount');
+  const cartPanel = document.getElementById('cartPanel');
+  const cartItemsDiv = document.getElementById('cartItems');
+  const cartTotalSpan = document.getElementById('cartTotal');
+  const checkoutSection = document.getElementById('checkoutSection');
+  const checkoutForm = document.getElementById('checkoutForm');
+  const checkoutSuccess = document.getElementById('checkoutSuccess');
+  const adminModal = document.getElementById('adminModal');
+  const adminCloseBtn = document.getElementById('adminCloseBtn');
+  const adminAccessBtn = document.getElementById('adminAccessBtn');
+  const adminLoginSection = document.getElementById('adminLoginSection');
+  const adminLoginForm = document.getElementById('adminLogin');
+  const adminPasswordInput = document.getElementById('adminPassword');
+  const adminLoginError = document.getElementById('adminLoginError');
+  const adminContent = document.getElementById('adminContent');
+  const ordersTableBody = document.getElementById('ordersTableBody');
+  const logoutBtn = document.getElementById('logoutBtn');
+
+  let cart = [];
+  let orders = [];
+
+  // --- Load saved orders from localStorage ---
+  if(localStorage.getItem('orders')) {
+    orders = JSON.parse(localStorage.getItem('orders'));
+  }
+
+  // --- Functions ---
+
+  // Render products to grid
+  function renderProducts(filter='') {
+    jerseyGrid.innerHTML = '';
+    const filtered = products.filter(p => p.toLowerCase().includes(filter.toLowerCase()));
+    if(filtered.length === 0) {
+      jerseyGrid.innerHTML = '<p>No jerseys found.</p>';
+      return;
     }
-
-    searchInput.addEventListener('input', () => {
-      renderProducts(searchInput.value);
+    filtered.forEach(name => {
+      const card = document.createElement('div');
+      card.className = 'card';
+      card.innerHTML = `
+        <img src="https://via.placeholder.com/230x230?text=${encodeURIComponent(name)}" alt="${name}">
+        <div class="card-body">
+          <h3>${name}</h3>
+          <p class="price">$${price}</p>
+          <button class="btn addToCartBtn">Add to Cart</button>
+        </div>
+      `;
+      card.querySelector('.addToCartBtn').addEventListener('click', () => addToCart(name));
+      jerseyGrid.appendChild(card);
     });
+  }
 
+  // Add to cart
+  function addToCart(name) {
+    const found = cart.find(item => item.name === name);
+    if(found) {
+      found.qty++;
+    } else {
+      cart.push({name, qty:1});
+    }
+    updateCartUI();
+  }
+
+  // Update cart UI
+  function updateCartUI() {
+    cartCount.textContent = cart.reduce((acc, i) => acc + i.qty, 0);
+    cartItemsDiv.innerHTML = '';
+    if(cart.length === 0) {
+      cartItemsDiv.innerHTML = '<p>Your cart is empty.</p>';
+      cartTotalSpan.textContent = '0';
+      return;
+    }
+    let total = 0;
+    cart.forEach((item, idx) => {
+      const itemDiv = document.createElement('div');
+      itemDiv.className = 'cart-item';
+      const itemTotal = item.qty * price;
+      total += itemTotal;
+      itemDiv.innerHTML = `
+        <span>${item.name} x${item.qty}</span>
+        <span>$${itemTotal}</span>
+        <button aria-label="Remove ${item.name}" data-index="${idx}">Remove</button>
+      `;
+      itemDiv.querySelector('button').addEventListener('click', e => {
+        const index = +e.target.dataset.index;
+        cart.splice(index,1);
+        updateCartUI();
+      });
+      cartItemsDiv.appendChild(itemDiv);
+    });
+    cartTotalSpan.textContent = total;
+  }
+
+  // Toggle cart panel
+  cartBtn.addEventListener('click', () => {
+    if(cartPanel.style.display === 'flex') {
+      cartPanel.style.display = 'none';
+    } else {
+      cartPanel.style.display = 'flex';
+      checkoutSection.style.display = 'none';
+    }
+  });
+
+  // Checkout button shows form
+  document.getElementById('checkoutBtn').addEventListener('click', () => {
+    if(cart.length === 0) {
+      alert('Your cart is empty!');
+      return;
+    }
+    cartPanel.style.display = 'none';
+    checkoutSection.style.display = 'block';
+    checkoutSuccess.style.display = 'none';
+  });
+
+  // Search input filter products live
+  searchInput.addEventListener('input', () => {
+    renderProducts(searchInput.value);
+  });
+
+  // Checkout form submit
+  checkoutForm.addEventListener('submit', e => {
+    e.preventDefault();
+
+    // Collect info
+    const name = document.getElementById('shipName').value.trim();
+    const address = document.getElementById('shipAddress').value.trim();
+    const postal = document.getElementById('shipPostal').value.trim();
+    const phone = document.getElementById('shipPhone').value.trim();
+    const email = document.getElementById('shipEmail').value.trim();
+    const cardName = document.getElementById('cardName').value.trim();
+    const cardNumber = document.getElementById('cardNumber').value.trim();
+    const cardExpiry = document.getElementById('cardExpiry').value.trim();
+    const cardCVV = document.getElementById('cardCVV').value.trim();
+
+    // Basic validation
+    if(!name || !address || !postal || !phone || !cardName || !cardNumber || !cardExpiry || !cardCVV) {
+      alert('Please fill all required fields.');
+      return;
+    }
+
+    // Save order
+    const order = {
+      id: Date.now(),
+      name, address, postal, phone, email,
+      cardName, cardNumber, cardExpiry, cardCVV,
+      items: [...cart],
+      total: cart.reduce((acc,i) => acc + i.qty*price, 0)
+    };
+    orders.push(order);
+    localStorage.setItem('orders', JSON.stringify(orders));
+
+    // Clear cart & form
+    cart = [];
+    updateCartUI();
+    checkoutForm.reset();
+    checkoutSection.style.display = 'none';
+    checkoutSuccess.style.display = 'block';
+    alert('Payment processed! Thank you for your order.');
+
+    // Show home
     renderProducts();
+  });
 
-    function register(e) {
-      e.preventDefault();
-      const name = document.getElementById('regName').value;
-      if (name) {
-        localStorage.setItem('userName', name);
-        document.getElementById('welcomeMsg').textContent = `Welcome back, ${name}!`;
-        alert('Registered successfully!');
-      }
-    }
+  // Admin panel logic
+  adminAccessBtn.addEventListener('click', e => {
+    e.preventDefault();
+    adminModal.style.display = 'flex';
+    adminLoginSection.style.display = 'block';
+    adminContent.style.display = 'none';
+    adminLoginError.style.display = 'none';
+    adminPasswordInput.value = '';
+  });
 
-    function login(e) {
-      e.preventDefault();
-      alert('Logged in successfully!');
-    }
+  adminCloseBtn.addEventListener('click', () => {
+    adminModal.style.display = 'none';
+  });
 
-    function pay(e) {
-      e.preventDefault();
-      alert('Payment processed. Thank you!');
+  adminLoginForm.addEventListener('submit', e => {
+    e.preventDefault();
+    const pass = adminPasswordInput.value;
+    if(pass === 'admin123') {
+      adminLoginSection.style.display = 'none';
+      adminContent.style.display = 'block';
+      renderOrders();
+      logoutBtn.style.display = 'inline-block';
+    } else {
+      adminLoginError.style.display = 'block';
     }
+  });
 
-    window.onload = () => {
-      const userName = localStorage.getItem('userName');
-      if (userName) {
-        document.getElementById('welcomeMsg').textContent = `Welcome back, ${userName}!`;
-      }
+  logoutBtn.addEventListener('click', e => {
+    e.preventDefault();
+    adminModal.style.display = 'none';
+    adminLoginSection.style.display = 'block';
+    adminContent.style.display = 'none';
+    logoutBtn.style.display = 'none';
+    adminPasswordInput.value = '';
+  });
+
+  // Render orders in admin
+  function renderOrders() {
+    ordersTableBody.innerHTML = '';
+    if(orders.length === 0) {
+      ordersTableBody.innerHTML = '<tr><td colspan="8" style="text-align:center;">No orders yet.</td></tr>';
+      return;
     }
-  </script>
+    orders.forEach((order, idx) => {
+      const itemsDesc = order.items.map(i => `${i.name} x${i.qty}`).join(', ');
+      const tr = document.createElement('tr');
+      tr.innerHTML = `
+        <td>${idx+1}</td>
+        <td>${order.name}</td>
+        <td>${order.email || '-'}</td>
+        <td>${order.phone}</td>
+        <td>${itemsDesc}</td>
+        <td>$${order.total}</td>
+        <td>${order.address}</td>
+        <td>${order.postal}</td>
+      `;
+      ordersTableBody.appendChild(tr);
+    });
+  }
+
+  // Initialize
+  renderProducts();
+  updateCartUI();
+
+</script>
+
 </body>
 </html>
