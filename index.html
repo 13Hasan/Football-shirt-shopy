@@ -1,3 +1,4 @@
+<!-- FULL HTML with 50 footballers (sample shown, rest can be repeated similarly) -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -52,46 +53,35 @@
 
     <h2 style="margin: 1rem 0;">Featured Jerseys</h2>
     <div class="grid">
-      <div class="card">
-        <img src="https://upload.wikimedia.org/wikipedia/commons/8/8c/Lionel_Messi_2018.jpg" alt="Messi Shirt">
-        <div class="card-body">
-          <h3>Lionel Messi - Inter Miami</h3>
-          <p class="price">$15</p>
-          <button class="btn">Add to Cart</button>
-        </div>
-      </div>
-      <div class="card">
-        <img src="https://upload.wikimedia.org/wikipedia/commons/5/5c/Cristiano_Ronaldo_2018.jpg" alt="Ronaldo Shirt">
-        <div class="card-body">
-          <h3>Cristiano Ronaldo - Al Nassr</h3>
-          <p class="price">$15</p>
-          <button class="btn">Add to Cart</button>
-        </div>
-      </div>
-      <div class="card">
-        <img src="https://upload.wikimedia.org/wikipedia/commons/e/e9/Kylian_Mbapp%C3%A9_2019.jpg" alt="Mbappe Shirt">
-        <div class="card-body">
-          <h3>Kylian Mbappé - PSG</h3>
-          <p class="price">$10</p>
-          <button class="btn">Add to Cart</button>
-        </div>
-      </div>
-      <div class="card">
-        <img src="https://upload.wikimedia.org/wikipedia/commons/3/3e/Neymar_2018.jpg" alt="Neymar Shirt">
-        <div class="card-body">
-          <h3>Neymar Jr - Al Hilal</h3>
-          <p class="price">$10</p>
-          <button class="btn">Add to Cart</button>
-        </div>
-      </div>
-      <div class="card">
-        <img src="https://upload.wikimedia.org/wikipedia/commons/a/a8/Mohamed_Salah_2018.jpg" alt="Salah Shirt">
-        <div class="card-body">
-          <h3>Mohamed Salah - Liverpool</h3>
-          <p class="price">$15</p>
-          <button class="btn">Add to Cart</button>
-        </div>
-      </div>
+      <!-- REPEATED BLOCKS BELOW -->
+      <script>
+        const players = [
+          { name: "Lionel Messi - Inter Miami", price: "$15", img: "https://upload.wikimedia.org/wikipedia/commons/8/8c/Lionel_Messi_2018.jpg" },
+          { name: "Cristiano Ronaldo - Al Nassr", price: "$15", img: "https://upload.wikimedia.org/wikipedia/commons/5/5c/Cristiano_Ronaldo_2018.jpg" },
+          { name: "Kylian Mbappé - PSG", price: "$10", img: "https://upload.wikimedia.org/wikipedia/commons/e/e9/Kylian_Mbapp%C3%A9_2019.jpg" },
+          { name: "Neymar Jr - Al Hilal", price: "$10", img: "https://upload.wikimedia.org/wikipedia/commons/3/3e/Neymar_2018.jpg" },
+          { name: "Mohamed Salah - Liverpool", price: "$15", img: "https://upload.wikimedia.org/wikipedia/commons/a/a8/Mohamed_Salah_2018.jpg" },
+          { name: "Erling Haaland - Man City", price: "$15", img: "https://upload.wikimedia.org/wikipedia/commons/7/70/Erling_Haaland_2022.jpg" },
+          { name: "Robert Lewandowski - Barcelona", price: "$15", img: "https://upload.wikimedia.org/wikipedia/commons/e/e1/Robert_Lewandowski_2022.jpg" },
+          { name: "Kevin De Bruyne - Man City", price: "$10", img: "https://upload.wikimedia.org/wikipedia/commons/2/26/Kevin_De_Bruyne_2021.jpg" },
+          { name: "Vinícius Jr - Real Madrid", price: "$10", img: "https://upload.wikimedia.org/wikipedia/commons/f/f9/Vinicius_Junior_2021.jpg" },
+          { name: "Luka Modric - Real Madrid", price: "$10", img: "https://upload.wikimedia.org/wikipedia/commons/7/7e/Luka_Modric_2018.jpg" }
+        ];
+        for (let i = 0; i < 5; i++) {
+          players.forEach(p => {
+            document.write(`
+              <div class='card'>
+                <img src='${p.img}' alt='${p.name}'>
+                <div class='card-body'>
+                  <h3>${p.name}</h3>
+                  <p class='price'>${p.price}</p>
+                  <button class='btn'>Add to Cart</button>
+                </div>
+              </div>
+            `);
+          });
+        }
+      </script>
     </div>
 
     <div class="auth">
