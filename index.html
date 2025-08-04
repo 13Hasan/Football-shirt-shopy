@@ -3,36 +3,43 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Football Shirt Shopy</title>
+  <title>ProKick Jerseys</title>
   <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; font-family: Arial, sans-serif; }
-    body { background: #f5f5f5; }
-    header { background: #232f3e; color: white; padding: 1rem; }
-    header h1 { font-size: 1.8rem; }
-    nav { background: #37475a; display: flex; gap: 1rem; padding: 0.8rem 1rem; }
-    nav a { color: white; text-decoration: none; font-weight: bold; }
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
+    body { background: #f0f2f5; color: #333; }
+    header { background: linear-gradient(90deg, #0d1b2a, #1b263b); color: white; padding: 1.2rem 1rem; text-align: center; }
+    header h1 { font-size: 2rem; }
+    nav { background: #415a77; display: flex; justify-content: center; gap: 1.5rem; padding: 1rem; }
+    nav a { color: white; text-decoration: none; font-weight: 600; transition: 0.3s; }
+    nav a:hover { text-decoration: underline; }
     .container { max-width: 1200px; margin: auto; padding: 1rem; }
-    .search-bar { margin: 1rem 0; }
-    .search-bar input { width: 100%; padding: 0.7rem; border-radius: 6px; border: 1px solid #ccc; }
-    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; }
-    .card { background: white; border-radius: 8px; overflow: hidden; box-shadow: 0 2px 6px rgba(0,0,0,0.1); }
-    .card img { width: 100%; height: 220px; object-fit: cover; }
-    .card-body { padding: 0.7rem; }
-    .card-body h3 { font-size: 1rem; margin-bottom: 0.4rem; }
+    .search-bar { margin: 1.5rem 0; }
+    .search-bar input { width: 100%; padding: 0.8rem; border-radius: 6px; border: 1px solid #bbb; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 1.2rem; }
+    .card { background: white; border-radius: 10px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.1); transition: transform 0.2s; }
+    .card:hover { transform: translateY(-4px); }
+    .card img { width: 100%; height: 230px; object-fit: cover; }
+    .card-body { padding: 1rem; }
+    .card-body h3 { font-size: 1.1rem; margin-bottom: 0.5rem; }
     .price { color: green; font-weight: bold; }
-    .btn { background: #ff9900; padding: 0.5rem 1rem; border: none; border-radius: 4px; cursor: pointer; color: white; margin-top: 0.5rem; }
-    .auth { display: flex; gap: 1rem; margin: 2rem 0; }
-    .auth form { background: white; padding: 1rem; border-radius: 8px; flex: 1; box-shadow: 0 2px 6px rgba(0,0,0,0.1); }
-    footer { background: #232f3e; color: white; text-align: center; padding: 1rem; margin-top: 2rem; }
+    .btn { background: #ef233c; color: white; padding: 0.5rem 1rem; border: none; border-radius: 5px; cursor: pointer; margin-top: 0.6rem; transition: 0.3s; }
+    .btn:hover { background: #d90429; }
+    .auth { display: flex; flex-wrap: wrap; gap: 2rem; margin: 3rem 0; }
+    .auth form { background: white; padding: 1.5rem; border-radius: 10px; flex: 1; min-width: 300px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+    .auth input { width: 100%; padding: 0.6rem; margin: 0.6rem 0; border: 1px solid #ccc; border-radius: 5px; }
+    .auth h3 { margin-bottom: 1rem; }
+    footer { background: #1b263b; color: white; text-align: center; padding: 2rem 1rem; margin-top: 3rem; }
   </style>
 </head>
 <body>
   <header>
-    <h1>Football Shirt Shopy</h1>
+    <h1>ProKick Jerseys</h1>
+    <p>Your #1 source for top football jerseys – starting from just $10!</p>
   </header>
+
   <nav>
     <a href="#">Home</a>
-    <a href="#">Listings</a>
+    <a href="#">Shop</a>
     <a href="#">Login</a>
     <a href="#">Register</a>
     <a href="#">Contact</a>
@@ -40,32 +47,31 @@
 
   <div class="container">
     <div class="search-bar">
-      <input type="text" placeholder="Search for your favorite footballer..." />
+      <input type="text" placeholder="Search player or team...">
     </div>
 
-    <h2 style="margin: 1rem 0;">Available Football Shirts ($10 each)</h2>
+    <h2 style="margin: 1rem 0;">Featured Jerseys</h2>
     <div class="grid">
-      <!-- 5 sample products shown; replace or duplicate to add more -->
       <div class="card">
         <img src="https://upload.wikimedia.org/wikipedia/commons/8/8c/Lionel_Messi_2018.jpg" alt="Messi Shirt">
         <div class="card-body">
-          <h3>Lionel Messi Shirt</h3>
-          <p class="price">$10</p>
+          <h3>Lionel Messi - Inter Miami</h3>
+          <p class="price">$15</p>
           <button class="btn">Add to Cart</button>
         </div>
       </div>
       <div class="card">
         <img src="https://upload.wikimedia.org/wikipedia/commons/5/5c/Cristiano_Ronaldo_2018.jpg" alt="Ronaldo Shirt">
         <div class="card-body">
-          <h3>Cristiano Ronaldo Shirt</h3>
-          <p class="price">$10</p>
+          <h3>Cristiano Ronaldo - Al Nassr</h3>
+          <p class="price">$15</p>
           <button class="btn">Add to Cart</button>
         </div>
       </div>
       <div class="card">
         <img src="https://upload.wikimedia.org/wikipedia/commons/e/e9/Kylian_Mbapp%C3%A9_2019.jpg" alt="Mbappe Shirt">
         <div class="card-body">
-          <h3>Kylian Mbappé Shirt</h3>
+          <h3>Kylian Mbappé - PSG</h3>
           <p class="price">$10</p>
           <button class="btn">Add to Cart</button>
         </div>
@@ -73,7 +79,7 @@
       <div class="card">
         <img src="https://upload.wikimedia.org/wikipedia/commons/3/3e/Neymar_2018.jpg" alt="Neymar Shirt">
         <div class="card-body">
-          <h3>Neymar Jr Shirt</h3>
+          <h3>Neymar Jr - Al Hilal</h3>
           <p class="price">$10</p>
           <button class="btn">Add to Cart</button>
         </div>
@@ -81,35 +87,35 @@
       <div class="card">
         <img src="https://upload.wikimedia.org/wikipedia/commons/a/a8/Mohamed_Salah_2018.jpg" alt="Salah Shirt">
         <div class="card-body">
-          <h3>Mohamed Salah Shirt</h3>
-          <p class="price">$10</p>
+          <h3>Mohamed Salah - Liverpool</h3>
+          <p class="price">$15</p>
           <button class="btn">Add to Cart</button>
         </div>
       </div>
-      <!-- Add 45 more similar cards here -->
     </div>
 
     <div class="auth">
       <form>
         <h3>Login</h3>
-        <input type="text" placeholder="Email" style="width:100%;margin:0.5rem 0;padding:0.5rem" /><br>
-        <input type="password" placeholder="Password" style="width:100%;margin:0.5rem 0;padding:0.5rem" /><br>
+        <input type="text" placeholder="Email">
+        <input type="password" placeholder="Password">
         <button class="btn">Login</button>
       </form>
 
       <form>
         <h3>Register</h3>
-        <input type="text" placeholder="Name" style="width:100%;margin:0.5rem 0;padding:0.5rem" /><br>
-        <input type="email" placeholder="Email" style="width:100%;margin:0.5rem 0;padding:0.5rem" /><br>
-        <input type="password" placeholder="Password" style="width:100%;margin:0.5rem 0;padding:0.5rem" /><br>
+        <input type="text" placeholder="Name">
+        <input type="email" placeholder="Email">
+        <input type="password" placeholder="Password">
         <button class="btn">Register</button>
       </form>
     </div>
   </div>
 
   <footer>
-    <p>&copy; 2025 Football Shirt Shopy. Contact: hasan34554478@gmail.com</p>
-    <p>This site is for demonstration only and does not scam users.</p>
+    <p>&copy; 2025 ProKick Jerseys. All rights reserved.</p>
+    <p>Contact: support@prokickjerseys.com</p>
+    <p>This site is built for demo purposes only.</p>
   </footer>
 </body>
 </html>
