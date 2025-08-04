@@ -48,13 +48,20 @@
   nav .profile {
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 6px;
     border: 1px solid white;
     padding: 6px 10px;
     border-radius: 4px;
+    cursor: default;
   }
   nav .profile span {
     color: #ef233c;
+  }
+  nav .profile img {
+    width: 20px;
+    height: 20px;
+    filter: grayscale(100%) brightness(120%);
+    border-radius: 50%;
   }
   main {
     max-width: 1150px;
@@ -141,7 +148,7 @@
     background: white;
     border-radius: 15px;
     width: 100%;
-    max-width: 420px;
+    max-width: 460px;
     padding: 20px 30px;
     box-shadow: 0 5px 15px rgb(0 0 0 / 0.3);
     position: relative;
@@ -257,17 +264,25 @@
     <form id="orderForm">
       <label for="orderPlayer">Player</label>
       <input type="text" id="orderPlayer" readonly />
+      
       <label for="orderSize">Size</label>
       <select id="orderSize" required>
         <option value="">Select Size</option>
         <option value="S">S</option><option value="M">M</option><option value="L">L</option><option value="XL">XL</option>
       </select>
+      
       <label for="orderQuantity">Quantity</label>
       <input type="number" id="orderQuantity" min="1" value="1" required />
+      
       <label for="orderName">Name (who is it for?)</label>
       <input type="text" id="orderName" placeholder="Full Name" required />
-      <label for="orderPrice">Price per jersey ($)</label>
-      <input type="number" id="orderPrice" readonly />
+      
+      <label for="orderCountry">Country</label>
+      <input type="text" id="orderCountry" placeholder="Country" required />
+      
+      <label for="orderPostalCode">Postal Code</label>
+      <input type="text" id="orderPostalCode" placeholder="Postal Code" required />
+      
       <div class="modal-buttons">
         <button type="button" class="btn" onclick="buyNow()">Buy Now</button>
         <button type="button" class="btn" onclick="addToBasket()">Add to Basket</button>
@@ -404,305 +419,4 @@
     {name: "Mykhailo Mudryk", price: 10},
     {name: "Dani Olmo", price: 10},
     {name: "Yeremy Pino", price: 10},
-    {name: "Takefusa Kubo", price: 10},
-    {name: "Benjamin Šeško", price: 10},
-    {name: "Noah Okafor", price: 10}
-  ];
-
-  // State
-  let loggedInUser = null;
-  let basket = [];
-
-  // DOM Elements
-  const jerseyGrid = document.getElementById('jerseyGrid');
-  const basketBtn = document.getElementById('basketBtn');
-  const basketModal = document.getElementById('basketModal');
-  const basketItems = document.getElementById('basketItems');
-  const orderModal = document.getElementById('orderModal');
-  const orderPlayerInput = document.getElementById('orderPlayer');
-  const orderSizeSelect = document.getElementById('orderSize');
-  const orderQuantityInput = document.getElementById('orderQuantity');
-  const orderNameInput = document.getElementById('orderName');
-  const orderPriceInput = document.getElementById('orderPrice');
-  const loginModal = document.getElementById('loginModal');
-  const registerModal = document.getElementById('registerModal');
-  const profileNameSpan = document.getElementById('profileName');
-  const loginBtn = document.getElementById('loginBtn');
-  const registerBtn = document.getElementById('registerBtn');
-
-  // Functions
-
-  function renderProducts(filter = '') {
-    jerseyGrid.innerHTML = '';
-    const filtered = products.filter(p => p.name.toLowerCase().includes(filter.toLowerCase()));
-    if(filtered.length === 0) {
-      jerseyGrid.innerHTML = '<p style="text-align:center; color:#555; font-style: italic;">No jerseys found.</p>';
-      return;
-    }
-    filtered.forEach(p => {
-      const card = document.createElement('div');
-      card.className = 'card';
-      card.innerHTML = `
-        <img src="https://via.placeholder.com/400x400?text=${encodeURIComponent(p.name)}" alt="${p.name}" />
-        <div class="card-body">
-          <h3>${p.name}</h3>
-          <p class="price">$${p.price.toFixed(2)}</p>
-          <button class="btn" onclick="openOrderModal('${p.name}',${p.price})">Order</button>
-        </div>
-      `;
-      jerseyGrid.appendChild(card);
-    });
-  }
-
-  function openOrderModal(player, price) {
-    if(!loggedInUser) {
-      alert('Please login with Gmail to order.');
-      openLogin();
-      return;
-    }
-    orderPlayerInput.value = player;
-    orderPriceInput.value = price.toFixed(2);
-    orderQuantityInput.value = 1;
-    orderSizeSelect.value = '';
-    orderNameInput.value = loggedInUser.name || '';
-    orderModal.classList.add('active');
-  }
-
-  function closeOrderModal() {
-    orderModal.classList.remove('active');
-  }
-
-  function buyNow() {
-    const player = orderPlayerInput.value;
-    const size = orderSizeSelect.value;
-    const qty = parseInt(orderQuantityInput.value);
-    const name = orderNameInput.value.trim();
-    const price = parseFloat(orderPriceInput.value);
-
-    if(!size) { alert('Please select a size.'); return; }
-    if(qty < 1) { alert('Quantity must be at least 1.'); return; }
-    if(!name) { alert('Please enter the name for the order.'); return; }
-
-    alert(`Order successful!\n\nPlayer: ${player}\nSize: ${size}\nQuantity: ${qty}\nPrice: $${(qty * price).toFixed(2)}\nName: ${name}`);
-    closeOrderModal();
-  }
-
-  function addToBasket() {
-    const player = orderPlayerInput.value;
-    const size = orderSizeSelect.value;
-    const qty = parseInt(orderQuantityInput.value);
-    const name = orderNameInput.value.trim();
-    const price = parseFloat(orderPriceInput.value);
-
-    if(!size) { alert('Please select a size.'); return; }
-    if(qty < 1) { alert('Quantity must be at least 1.'); return; }
-    if(!name) { alert('Please enter the name for the order.'); return; }
-
-    basket.push({player, size, qty, name, price});
-    updateBasketCount();
-    alert(`Added to basket: ${player} x${qty} (Size: ${size})`);
-    closeOrderModal();
-  }
-
-  function updateBasketCount() {
-    basketBtn.textContent = `Basket (${basket.length})`;
-  }
-
-  function openBasket() {
-    if(!loggedInUser) {
-      alert('Please login to view your basket.');
-      openLogin();
-      return;
-    }
-    basketModal.classList.add('active');
-    renderBasketItems();
-  }
-
-  function closeBasket() {
-    basketModal.classList.remove('active');
-  }
-
-  function renderBasketItems() {
-    basketItems.innerHTML = '';
-    if(basket.length === 0) {
-      basketItems.innerHTML = '<p class="empty-msg">Your basket is empty.</p>';
-      return;
-    }
-    basket.forEach((item, i) => {
-      const div = document.createElement('div');
-      div.innerHTML = `
-        <div><strong>${item.player}</strong> (Size: ${item.size}) x${item.qty} - For: ${item.name} - $${(item.price * item.qty).toFixed(2)}</div>
-        <button onclick="removeBasketItem(${i})" style="background:#ef233c;color:#fff;border:none;padding:3px 7px;border-radius:4px;cursor:pointer;">Remove</button>
-      `;
-      div.style.display = 'flex';
-      div.style.justifyContent = 'space-between';
-      div.style.alignItems = 'center';
-      div.style.marginBottom = '8px';
-      basketItems.appendChild(div);
-    });
-  }
-
-  function removeBasketItem(index) {
-    basket.splice(index, 1);
-    updateBasketCount();
-    renderBasketItems();
-  }
-
-  function checkout() {
-    if(basket.length === 0) {
-      alert('Your basket is empty!');
-      return;
-    }
-    let total = basket.reduce((acc, item) => acc + item.price * item.qty, 0);
-    alert(`Checkout\nTotal: $${total.toFixed(2)}\nThank you for your order!`);
-    basket = [];
-    updateBasketCount();
-    closeBasket();
-  }
-
-  // Navigation functions
-  function goHome() {
-    hideAllSections();
-    document.getElementById('homeSection').style.display = 'block';
-  }
-  function goShop() {
-    hideAllSections();
-    document.getElementById('shopSection').style.display = 'block';
-    renderProducts();
-  }
-  function hideAllSections() {
-    document.getElementById('homeSection').style.display = 'none';
-    document.getElementById('shopSection').style.display = 'none';
-    document.getElementById('profileSection').style.display = 'none';
-  }
-
-  // Login/Register modals
-  function openLogin() {
-    loginModal.classList.add('active');
-  }
-  function closeLogin() {
-    loginModal.classList.remove('active');
-  }
-  function openRegister() {
-    registerModal.classList.add('active');
-  }
-  function closeRegister() {
-    registerModal.classList.remove('active');
-  }
-
-  // Login form submit
-  document.getElementById('loginForm').addEventListener('submit', e => {
-    e.preventDefault();
-    const email = e.target.loginEmail.value.trim();
-    if(!email.endsWith('@gmail.com')) {
-      alert('Only Gmail accounts allowed!');
-      return;
-    }
-    loggedInUser = {email, name: localStorage.getItem('userName') || email.split('@')[0]};
-    localStorage.setItem('userEmail', email);
-    localStorage.setItem('userName', loggedInUser.name);
-    closeLogin();
-    updateUIOnLogin();
-  });
-
-  // Register form submit
-  document.getElementById('registerForm').addEventListener('submit', e => {
-    e.preventDefault();
-    const name = e.target.regName.value.trim();
-    const email = e.target.regEmail.value.trim();
-    if(!email.endsWith('@gmail.com')) {
-      alert('Only Gmail accounts allowed!');
-      return;
-    }
-    loggedInUser = {email, name};
-    localStorage.setItem('userEmail', email);
-    localStorage.setItem('userName', name);
-    closeRegister();
-    updateUIOnLogin();
-  });
-
-  function logout() {
-    loggedInUser = null;
-    localStorage.removeItem('userEmail');
-    localStorage.removeItem('userName');
-    updateUIOnLogout();
-    goHome();
-  }
-
-  function updateUIOnLogin() {
-    loginBtn.style.display = 'none';
-    registerBtn.style.display = 'none';
-
-    if(!document.getElementById('profileDisplay')) {
-      const profileSpan = document.createElement('span');
-      profileSpan.id = 'profileDisplay';
-      profileSpan.className = 'profile';
-      profileSpan.innerHTML = `<span>${loggedInUser.name}</span>`;
-      const logoutBtn = document.createElement('button');
-      logoutBtn.id = 'logoutBtn';
-      logoutBtn.textContent = 'Logout';
-      logoutBtn.onclick = logout;
-
-      const nav = document.getElementById('navMenu');
-      nav.appendChild(profileSpan);
-      nav.appendChild(logoutBtn);
-    } else {
-      document.getElementById('profileDisplay').textContent = loggedInUser.name;
-      document.getElementById('logoutBtn').style.display = 'inline-block';
-    }
-  }
-
-  function updateUIOnLogout() {
-    loginBtn.style.display = 'inline';
-    registerBtn.style.display = 'inline';
-    const profileSpan = document.getElementById('profileDisplay');
-    const logoutBtn = document.getElementById('logoutBtn');
-    if(profileSpan) profileSpan.remove();
-    if(logoutBtn) logoutBtn.remove();
-  }
-
-  // Search functionality
-  document.getElementById('searchInput').addEventListener('input', e => {
-    renderProducts(e.target.value);
-  });
-
-  // Init
-  window.onload = () => {
-    const storedEmail = localStorage.getItem('userEmail');
-    const storedName = localStorage.getItem('userName');
-    if(storedEmail && storedName) {
-      loggedInUser = {email: storedEmail, name: storedName};
-      updateUIOnLogin();
-    }
-    renderProducts();
-  }
-</script>
-</body>
-</html>
-@media (max-width: 600px) {
-  nav {
-    flex-direction: column;
-    align-items: center;
-    gap: 0.8rem;
-  }
-
-  .card img {
-    height: 180px;
-  }
-
-  .btn {
-    width: 100%;
-  }
-
-  form {
-    padding: 1rem;
-  }
-
-  input, select {
-    font-size: 1rem;
-  }
-
-  header h1 {
-    font-size: 1.5rem;
-  }
-}
+    {name: "Takefusa Kubo", price: 10
